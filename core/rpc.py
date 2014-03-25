@@ -12,8 +12,16 @@ def test_plus_one(num):
 
 class MinerThreadedXMLRPCServer(ThreadingMixIn, \
                         SimpleXMLRPCServer): 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):        
         SimpleXMLRPCServer.__init__(self, *args, **kwargs)
+        
+    def serve_forever(self):
+        self.quit = False
+        while not self.quit:
+            self.handle_request()
+            
+    def kill(self):
+        self.quit = True
 
 def clientCall(server, func_name, *args, **kwargs):
     serv = xmlrpclib.ServerProxy('http://%s' % server)
@@ -41,7 +49,9 @@ if __name__ == "__main__":
     server = MinerThreadedXMLRPCServer(('localhost', 8080))
   
     server.register_function(test_plus_one, 'add')
+    server.register_function(server.kill,'kill')
     
     # Run the server's main loop
     server.serve_forever()
+    print 'done'
                  

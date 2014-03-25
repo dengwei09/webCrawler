@@ -64,7 +64,9 @@ class MessageQueue(object):
                 taskGrps[tmpNode] = []
             for obj in objs:
                 if isinstance(obj,str):
-                    tmpNode = self.hashring.get_node(obj)
+                    
+                    it= self.hashring.iterate_nodes(obj)
+                    tmpNode = next(it)
                     taskGrps[tmpNode].append(obj)
                 else:
                     ValueError("the task can only be string type in MessageQueue")
@@ -73,7 +75,8 @@ class MessageQueue(object):
                 self._put(key,val)
                         
         elif isinstance(objs,str):
-            tmpNode = self.hashring.get_node(objs)
+            it = self.hashring.iterate_nodes(objs)
+            tmpNode = next(it)
             self._put(tmpNode,objs)
             
         else:
@@ -97,7 +100,8 @@ class MessageQueue(object):
             obj = self.get()
             if obj == None:
                 break
-            tmpNode = self.hashring.get_node(obj)
+            it = self.hashring.iterate_nodes(obj)
+            tmpNode = next(it)
             taskGrps[tmpNode].append(obj)
             
         for (key,val) in taskGrps:

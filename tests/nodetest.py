@@ -9,10 +9,11 @@ from core.rpc import MinerThreadedXMLRPCServer
 
 
 dir_ = tempfile.mkdtemp()
-node = StorageNode(dir_)
 print dir_
-print 'test1'   
-rpcServer = MinerThreadedXMLRPCServer(('localhost', 8080))   
-rpcServer.register_function(node.put, 'put')
-rpcServer.register_function(node.get, 'get')
-rpcServer.serve_forever()
+node = StorageNode(dir_)
+node.put(['1'*10,'2'*10])
+node.shutdown()
+
+node = StorageNode(dir_)
+node.put(['3'*10])
+node.shutdown()
