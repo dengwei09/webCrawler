@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
 encoding//MessageQueue/HashRing.py=utf-8
+encoding//core/opener.py=utf-8
+encoding//task/weiboSearch/weibo_login.py=utf-8
+encoding//task/weiboSearch/weibo_opener.py=utf-8
